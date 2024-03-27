@@ -1,100 +1,133 @@
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
+// C++ program to delete a given key from 
+// linked list. 
+#include <bits/stdc++.h> 
+using namespace std; 
 
-enum class Color { Bleu, Jaune, Rouge, Vert };
-enum class Shape { Carre, Losange, Rond, Triangle };
+// Structure for a node 
+class Node { 
+public: 
+	int data; 
+	Node* next; 
+}; 
 
-class Piece {
-private:
-    Color color;
-    Shape shape;
-public:
-    Piece(Color c, Shape s) : color(c), shape(s) {}
+// Function to insert a node at the 
+// beginning of a Circular linked list 
+void push(Node** head_ref, int data) 
+{ 
 
-    Color getColor() const { return color; }
-    Shape getShape() const { return shape; }
-};
+	// Create a new node and make head 
+	// as next of it. 
+	Node* ptr1 = new Node(); 
+	ptr1->data = data; 
+	ptr1->next = *head_ref; 
 
-class Board {
-private:
-    std::vector<Piece> pieces;
-public:
-    void addPiece(const Piece& piece) {
-        pieces.push_back(piece);
-    }
+	// If linked list is not NULL then 
+	// set the next of last node 
+	if (*head_ref != NULL) { 
 
-    void removeConsecutive() {
-        int size = pieces.size();
-        if (size < 3) return;
+		// Find the node before head and 
+		// update next of it. 
+		Node* temp = *head_ref; 
+		while (temp->next != *head_ref) 
+			temp = temp->next; 
+		temp->next = ptr1; 
+	} 
+	else
 
-        for (int i = 2; i < size; ++i) {
-            if ((pieces[i].getColor() == pieces[i-1].getColor() && pieces[i].getColor() == pieces[i-2].getColor()) ||
-                (pieces[i].getShape() == pieces[i-1].getShape() && pieces[i].getShape() == pieces[i-2].getShape())) {
-                pieces.erase(pieces.begin() + i - 2, pieces.begin() + i + 1);
-                size = pieces.size();
-                i -= 2;
-            }
-        }
-    }
+		// For the first node 
+		ptr1->next = ptr1; 
 
-    friend std::ostream& operator<<(std::ostream& os, const Board& board) {
-        for (const auto& piece : board.pieces) {
-            os << "(";
-            switch (piece.getColor()) {
-                case Color::Bleu:
-                    os << "Bleu, ";
-                    break;
-                case Color::Jaune:
-                    os << "Jaune, ";
-                    break;
-                case Color::Rouge:
-                    os << "Rouge, ";
-                    break;
-                case Color::Vert:
-                    os << "Vert, ";
-                    break;
-            }
-            switch (piece.getShape()) {
-                case Shape::Carre:
-                    os << "Carre) ";
-                    break;
-                case Shape::Losange:
-                    os << "Losange) ";
-                    break;
-                case Shape::Rond:
-                    os << "Rond) ";
-                    break;
-                case Shape::Triangle:
-                    os << "Triangle) ";
-                    break;
-            }
-        }
-        return os;
-    }
-};
+	*head_ref = ptr1; 
+} 
 
-class Game {
-private:
-    Board board;
-public:
-    void play() {
-        std::srand(std::time(nullptr));
+// Function to print nodes in a given 
+// circular linked list 
+void printList(Node* head) 
+{ 
+	Node* temp = head; 
+	if (head != NULL) { 
+		do { 
+			cout << temp->data << " "; 
+			temp = temp->next; 
+		} while (temp != head); 
+	} 
 
-        for (int i = 0; i < 10; ++i) { // 10 iterations pour cet exemple
-            Color color = static_cast<Color>(std::rand() % 4);
-            Shape shape = static_cast<Shape>(std::rand() % 4);
-            Piece piece(color, shape);
-            board.addPiece(piece);
-            board.removeConsecutive();
-            std::cout << "Étape " << i+1 << ": " << board << std::endl;
-        }
-    }
-};
+	cout << endl; 
+} 
 
-int main() {
-    Game game;
-    game.play();
-    return 0;
+// Function to delete a given node 
+// from the list 
+void deleteNode(Node** head, int key) 
+{ 
+
+	// If linked list is empty 
+	if (*head == NULL) 
+		return; 
+
+	// If the list contains only a 
+	// single node 
+	if ((*head)->data == key && (*head)->next == *head) { 
+		free(*head); 
+		*head = NULL; 
+		return; 
+	} 
+
+	Node *last = *head, *d; 
+
+	// If head is to be deleted 
+	if ((*head)->data == key) { 
+
+		// Find the last node of the list 
+		while (last->next != *head) 
+			last = last->next; 
+
+		// Point last node to the next of 
+		// head i.e. the second node 
+		// of the list 
+		last->next = (*head)->next; 
+		free(*head); 
+		*head = last->next; 
+		return; 
+	} 
+
+	// Either the node to be deleted is 
+	// not found or the end of list 
+	// is not reached 
+	while (last->next != *head && last->next->data != key) { 
+		last = last->next; 
+	} 
+
+	// If node to be deleted was found 
+	if (last->next->data == key) { 
+		d = last->next; 
+		last->next = d->next; 
+		free(d); 
+	} 
+	else
+		cout << "Given node is not found in the list!!!\n"; 
+} 
+
+// Driver code 
+int main() 
+{ 
+	// Initialize lists as empty 
+	Node* head = NULL; 
+
+	// Created linked list will be 
+	// 2->5->7->8->10 
+	push(&head, 2); 
+	push(&head, 5); 
+	push(&head, 7); 
+	push(&head, 8); 
+	push(&head, 10); 
+
+	cout << "List Before Deletion: "; 
+	printList(head); 
+
+	deleteNode(&head, 7); 
+
+	cout << "List After Deletion: "; 
+	printList(head); 
+
+	return 0; 
 }
