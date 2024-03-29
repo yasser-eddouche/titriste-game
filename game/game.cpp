@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game.hpp"
 
 LstPieces::LstPieces() {
     piece = nullptr; // La première pièce est initialisée à nullptr
@@ -80,14 +80,15 @@ void LstPieces::insertPieceLeft(LstPieces **list, Color color, Shapes shape) {
 void LstPieces::printList(LstPieces *list){
     LstPieces *current = list;
     if (list != NULL) {
+            printf("Printing list { ");
+
         do{
-        cout << "Piece: " << current->piece->color << " " << current->piece->shape << endl;
+        cout << "Piece: " << current->piece->color << " " << current->piece->shape << "  ";
         current = current->next;
         }while (current != list);
-        
+        printf(" }\n");
     }
-    printf("Printing list\n");
-
+    
 }
 
 Color getColorFromString(const string& colorStr) {

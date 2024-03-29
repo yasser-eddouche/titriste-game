@@ -1,27 +1,31 @@
 #include <iostream>
-#include "game/game.h"
-
+#include "game/game.hpp"
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
 using namespace std;
 
 int main() {
+        srand(time(NULL));
+
     // Création de la liste de pièces
     LstPieces *list = NULL;
 
+    int numPieces = rand() % 2 + 4; // Generates either 4 or 5
+    for (int i = 0; i < numPieces; ++i) {
+        Color randomColor = static_cast<Color>(rand() % 4);   // Generates a random color
+        Shapes randomShape = static_cast<Shapes>(rand() % 4); // Generates a random shape
+
+        list->insertPieceRight(&list, randomColor, randomShape); // Insert the random piece to the right
+    }
+
+    list->printList(list);
     // Ajout des pièces à la liste via le clavier
     while (true) {
-        string colorStr, shapeStr;
-        cout << "Entrez la couleur de la piece (red, green, blue, yellow) ou 'exit' pour quitter : ";
-        cin >> colorStr;
-        if (colorStr == "exit") break;
-        cout << "Entrez la forme de la piece (circle, square, triangle, diamond) : ";
-        cin >> shapeStr;
+        Color randomColor = static_cast<Color>(rand() % 4);   // Generates a random color
+    Shapes randomShape = static_cast<Shapes>(rand() % 4); // Generates a random shape
 
-        Color color = getColorFromString(colorStr);
-        Shapes shape = getShapeFromString(shapeStr);
-
-        // Piece newPiece;
-        // newPiece.color = color;
-        // newPiece.shape = shape;
+ 
+        cout<<"\nPiece: "<<randomColor<<" "<<randomShape<<endl;
 
         char choice;
         cout << "Voulez-vous inserer a gauche (l) ou a droite (r) de la piece existante ? ";
@@ -29,14 +33,14 @@ int main() {
 
         switch (choice) {
             case 'l':
-                list->insertPieceLeft(&list,color,shape); // Insérer à gauche
+                list->insertPieceLeft(&list,randomColor,randomShape); // Insérer à gauche
                 break;
             case 'r':
-                list->insertPieceRight(&list,color,shape); // Insérer à droite
+                list->insertPieceRight(&list,randomColor,randomShape); // Insérer à droite
                 break;
             default:
                 cout << "Choix invalide, la pièce sera ajoutée à la fin." << endl;
-                list->insertPieceRight(&list,color,shape); // Insérer à droite
+                list->insertPieceRight(&list,randomColor,randomShape); // Insérer à droite
         }
         list->printList(list);
         
