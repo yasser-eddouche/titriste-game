@@ -1,19 +1,12 @@
-#include "gui.hpp"
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cstdlib> // Include <cstdlib> for rand() function
+#include "../game/game.hpp"
+#include "../shapes/shapes.hpp"
 
-gui::gui(LstPieces* list)
-{
-    window.create(sf::VideoMode(1000, 600), "Titriste");
-    shapesForm = ShapesForm();
-    randomColor = static_cast<Color>(rand() % 4);
-    randomShape = static_cast<Shapes>(rand() % 4);
-    // LstPieces *list = nullptr; // Allocate memory for the first node
-    
-}
-gui::~gui()
-{
-}
-void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
-{
+using namespace std;
+
+void drawList(LstPieces *list, sf::RenderWindow& window, ShapesForm& shapesForm) {
     LstPieces *current = list;
     sf::Color fillColor;
     sf::Vector2f position(100.f, 500.f); // Starting position for the shapes
@@ -73,8 +66,8 @@ void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
         } while (current != list);
     }
 }
-void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape)
-{
+
+void generatePieces(sf::RenderWindow& window,ShapesForm& shapesForm,Color randomColor,Shapes randomShape) {
     sf::Color fillColor;
     sf::Vector2f position(100.f, 100.f); // Starting position for the shapes
 
@@ -121,21 +114,32 @@ void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
                     window.draw(shapesForm.getDiamond());
                     break;
             }
+        // (*list)->insertPieceRight(list, randomColor, randomShape);
+    
 }
 
-void gui::gamePage(LstPieces* list){
-    
+int main() {
+    // Initialize SFML window
+    sf::RenderWindow window(sf::VideoMode(1000, 600), "SFML List");
+     Color randomColor = randomColor = static_cast<Color>(rand() % 4);
+     Shapes randomShape = static_cast<Shapes>(rand() % 4);
+    // Create an instance of ShapesForm
+    ShapesForm shapesForm;
+
+    // Create the list of pieces
+    LstPieces *list = nullptr; // Allocate memory for the first node
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
     for (int i = 0; i < numPieces; ++i) {
-        randomColor = static_cast<Color>(rand() % 4);
-        randomShape = static_cast<Shapes>(rand() % 4);
+        Color randomColor = static_cast<Color>(rand() % 4);
+        Shapes randomShape = static_cast<Shapes>(rand() % 4);
         list->insertPieceRight(&list, randomColor, randomShape);
     }
+    // Main loop
     while (window.isOpen()) {
         // Generate random color and shape for each iteration
         
         window.clear(sf::Color::White); // Clear window with white background
-        generatePieces(shapesForm, randomColor, randomShape);
+        generatePieces(window, shapesForm, randomColor, randomShape);
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -155,8 +159,13 @@ void gui::gamePage(LstPieces* list){
                 }
             }
         }
-        drawList(list, shapesForm);
+
+        
+
+        drawList(list, window, shapesForm);
         
         window.display();
     }
+    
+    return 0;
 }

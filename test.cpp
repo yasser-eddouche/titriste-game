@@ -1,133 +1,47 @@
-// C++ program to delete a given key from 
-// linked list. 
-#include <bits/stdc++.h> 
-using namespace std; 
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include "shapes/shapes.hpp"
 
-// Structure for a node 
-class Node { 
-public: 
-	int data; 
-	Node* next; 
-}; 
+using namespace std;
 
-// Function to insert a node at the 
-// beginning of a Circular linked list 
-void push(Node** head_ref, int data) 
-{ 
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Shapes Example");
 
-	// Create a new node and make head 
-	// as next of it. 
-	Node* ptr1 = new Node(); 
-	ptr1->data = data; 
-	ptr1->next = *head_ref; 
+    // Create an instance of the Shapes class
+    ShapesForm shapes;
 
-	// If linked list is not NULL then 
-	// set the next of last node 
-	if (*head_ref != NULL) { 
+    // Set properties for each shape
+    shapes.setCircle(60.f, sf::Color::Red, sf::Color::Black, 2.f);
+    shapes.setSquare(100.f, sf::Color::Green, sf::Color::Black, 2.f);
+    shapes.setTriangle(100.f, sf::Color::Blue, sf::Color::Black, 2.f);
+    shapes.setDiamond(90.f, sf::Color::Yellow, sf::Color::Black, 2.f);
 
-		// Find the node before head and 
-		// update next of it. 
-		Node* temp = *head_ref; 
-		while (temp->next != *head_ref) 
-			temp = temp->next; 
-		temp->next = ptr1; 
-	} 
-	else
+    // Set positions for each shape
+    shapes.getCircle().setPosition(100.f, 100.f);
+    shapes.getSquare().setPosition(300.f, 100.f);
+    shapes.getTriangle().setPosition(500.f, 100.f);
+    shapes.getDiamond().setPosition(700.f, 100.f);
 
-		// For the first node 
-		ptr1->next = ptr1; 
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
-	*head_ref = ptr1; 
-} 
+        window.clear(sf::Color::White);
 
-// Function to print nodes in a given 
-// circular linked list 
-void printList(Node* head) 
-{ 
-	Node* temp = head; 
-	if (head != NULL) { 
-		do { 
-			cout << temp->data << " "; 
-			temp = temp->next; 
-		} while (temp != head); 
-	} 
+        // Draw all shapes
+        window.draw(shapes.getCircle());
+        window.draw(shapes.getSquare());
+        window.draw(shapes.getTriangle());
+        window.draw(shapes.getDiamond());
 
-	cout << endl; 
-} 
+        window.display();
+    }
 
-// Function to delete a given node 
-// from the list 
-void deleteNode(Node** head, int key) 
-{ 
-
-	// If linked list is empty 
-	if (*head == NULL) 
-		return; 
-
-	// If the list contains only a 
-	// single node 
-	if ((*head)->data == key && (*head)->next == *head) { 
-		free(*head); 
-		*head = NULL; 
-		return; 
-	} 
-
-	Node *last = *head, *d; 
-
-	// If head is to be deleted 
-	if ((*head)->data == key) { 
-
-		// Find the last node of the list 
-		while (last->next != *head) 
-			last = last->next; 
-
-		// Point last node to the next of 
-		// head i.e. the second node 
-		// of the list 
-		last->next = (*head)->next; 
-		free(*head); 
-		*head = last->next; 
-		return; 
-	} 
-
-	// Either the node to be deleted is 
-	// not found or the end of list 
-	// is not reached 
-	while (last->next != *head && last->next->data != key) { 
-		last = last->next; 
-	} 
-
-	// If node to be deleted was found 
-	if (last->next->data == key) { 
-		d = last->next; 
-		last->next = d->next; 
-		free(d); 
-	} 
-	else
-		cout << "Given node is not found in the list!!!\n"; 
-} 
-
-// Driver code 
-int main() 
-{ 
-	// Initialize lists as empty 
-	Node* head = NULL; 
-
-	// Created linked list will be 
-	// 2->5->7->8->10 
-	push(&head, 2); 
-	push(&head, 5); 
-	push(&head, 7); 
-	push(&head, 8); 
-	push(&head, 10); 
-
-	cout << "List Before Deletion: "; 
-	printList(head); 
-
-	deleteNode(&head, 7); 
-
-	cout << "List After Deletion: "; 
-	printList(head); 
-
-	return 0; 
+    return 0;
 }
