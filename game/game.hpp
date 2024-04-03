@@ -30,7 +30,7 @@ class LstPieces {
         
         void insertPieceLeft(LstPieces**, Color color, Shapes shape);
         void insertPieceRight(LstPieces**, Color color, Shapes shape) ;
-
+        void vanishPiece(LstPieces**);
         void printList(LstPieces*);
 };
 

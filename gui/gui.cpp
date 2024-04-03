@@ -2,9 +2,10 @@
 
 gui::gui(LstPieces* list)
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
     window.create(sf::VideoMode(1000, 600), "Titriste");
     shapesForm = ShapesForm();
-    
+
     randomColor = static_cast<Color>(rand() % 4);
     randomShape = static_cast<Shapes>(rand() % 4);
     // LstPieces *list = nullptr; // Allocate memory for the first node
@@ -14,7 +15,7 @@ gui::~gui()
 {
 }
 void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
-{
+{   
     LstPieces *current = list;
     sf::Color fillColor;
     sf::Vector2f position(100.f, 500.f); // Starting position for the shapes
@@ -79,9 +80,6 @@ void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
     sf::Color fillColor;
     sf::Vector2f position(100.f, 100.f); // Starting position for the shapes
 
-      // Generates either 4 or 5
-    // Color randomColor = static_cast<Color>(rand() % 4);
-    // Shapes randomShape = static_cast<Shapes>(rand() % 4);
     switch (randomColor) {
                 case red:
                     fillColor = sf::Color::Red;
@@ -128,8 +126,8 @@ void gui::gamePage(LstPieces* list){
     
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
     for (int i = 0; i < numPieces; ++i) {
-        randomColor = static_cast<Color>(rand() % 4);
-        randomShape = static_cast<Shapes>(rand() % 4);
+         randomColor = static_cast<Color>(rand() % 4);
+         randomShape = static_cast<Shapes>(rand() % 4);
         list->insertPieceRight(&list, randomColor, randomShape);
     }
     while (window.isOpen()) {
@@ -147,15 +145,21 @@ void gui::gamePage(LstPieces* list){
                 
                 if (event.key.code == sf::Keyboard::Left) {
                     list->insertPieceLeft(&list, randomColor, randomShape);
-                    randomColor = static_cast<Color>(rand() % 4);
-                    randomShape = static_cast<Shapes>(rand() % 4);
+                    list->vanishPiece(&list);
+                     randomColor = static_cast<Color>(rand() % 4);
+                     randomShape = static_cast<Shapes>(rand() % 4);
+                    
                 } else if (event.key.code == sf::Keyboard::Right) {
                     list->insertPieceRight(&list, randomColor, randomShape);
-                    randomColor = static_cast<Color>(rand() % 4);
-                    randomShape = static_cast<Shapes>(rand() % 4);
+                    list->vanishPiece(&list);
+                     randomColor = static_cast<Color>(rand() % 4);
+                     randomShape = static_cast<Shapes>(rand() % 4);
                 }
             }
+            
         }
+        
+
         drawList(list, shapesForm);
         
         window.display();
