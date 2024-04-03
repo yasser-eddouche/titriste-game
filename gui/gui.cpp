@@ -4,6 +4,7 @@ gui::gui(LstPieces* list)
 {
     window.create(sf::VideoMode(1000, 600), "Titriste");
     shapesForm = ShapesForm();
+    
     randomColor = static_cast<Color>(rand() % 4);
     randomShape = static_cast<Shapes>(rand() % 4);
     // LstPieces *list = nullptr; // Allocate memory for the first node
