@@ -1,124 +1,126 @@
 #include "game.hpp"
-// #include <vector>
 #include <unordered_set>
+
 LstPieces::LstPieces() {
-    piece = nullptr; // La première pièce est initialisée à nullptr
-    next = this;
-    // head = this; // Initialise head avec la référence à cette instance de LstPieces
-    // last = this; // Initialise tail avec la référence à cette instance de LstPieces
-   
+    piece = nullptr;
+    next = nullptr;
 }
 
 LstPieces::~LstPieces() {
-    // // Libère la mémoire allouée pour chaque pièce de la liste
-    LstPieces *current ;
+    LstPieces *current = this;
     while (current != nullptr) {
         LstPieces *temp = current;
         current = current->next;
-        delete temp->piece; // Supprime la pièce
-        delete temp; // Supprime le nœud
+        delete temp->piece;
+        delete temp;
+    }
+    cout << "List deleted" << endl;
+}
+
+void LstPieces::initialInsert(LstPieces **list, int numPieces) {
+    for (int i = 0; i < numPieces; ++i) {
+        Color randomColor = static_cast<Color>(rand() % 4);
+        Shapes randomShape = static_cast<Shapes>(rand() % 4);
+
+        Piece newPiece;
+        newPiece.color = randomColor;
+        newPiece.shape = randomShape;
+
+        LstPieces *newNode = new LstPieces();
+        newNode->piece = new Piece(newPiece);
+
+        if (*list == nullptr) {
+            // newNode->next = newNode;
+            *list = newNode;
+        } else {
+            LstPieces *tail = *list;
+            while (tail->next != nullptr) {
+                tail = tail->next;
+            }
+            tail->next = newNode;
+            newNode->next = nullptr;
+        }
     }
 }
 
-
-void LstPieces::insertPieceRight(LstPieces **list, Color color, Shapes shape) {
-    // Créer une nouvelle pièce
+void LstPieces::insertPieceRight(Color color, Shapes shape) {
     Piece newPiece;
     newPiece.color = color;
     newPiece.shape = shape;
 
-    // Créer un nouveau nœud pour la nouvelle pièce
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
 
-    if (*list == nullptr) {
-        // Si la liste est vide, le nouveau nœud devient la tête de la liste
-        newNode->next = newNode;
-        *list = newNode;
+    if (this == nullptr) {
+        cout << "you win" << endl;
     } else {
-        // Trouver le dernier nœud de la liste (queue)
-        LstPieces *tail = *list;
-        while (tail->next != *list) {
+        LstPieces *tail = this;
+        while (tail->next != nullptr) {
             tail = tail->next;
         }
-
-        // Insérer le nouveau nœud après le dernier nœud actuel
         tail->next = newNode;
-        newNode->next = *list;  // Le nouveau nœud pointe vers la tête de la liste
+        newNode->next = nullptr;
+        
     }
-
     printf("Piece inserted Right\n");
 }
+
 void LstPieces::insertPieceLeft(LstPieces **list, Color color, Shapes shape) {
-    // Créer une nouvelle pièce
-   Piece newPiece;
+    Piece newPiece;
     newPiece.color = color;
     newPiece.shape = shape;
 
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
-    
+
     if (*list == nullptr) {
-        // Si la liste est vide, le nouveau nœud devient la tête de la liste
-        newNode->next = newNode;
-        *list = newNode;
+        // *list = newNode;
+        cout << "you win" << endl;
     } else {
-        // Trouver le dernier nœud de la liste (queue)
-        LstPieces *tail = *list;
-        while (tail->next != *list) {
-            tail = tail->next;
-        }
-
-        // Insérer le nouveau nœud après le dernier nœud actuel
-        tail->next = newNode;
-        newNode->next = *list;  // Le nouveau nœud pointe vers la tête de la liste
+        newNode->next = *list;
+        *list = newNode;
     }
-    *list = newNode;
-
     printf("Piece inserted left\n");
+    // Free the memory allocated for newNode
 }
-//printlistpiece
+
 void LstPieces::printList(LstPieces *list){
     LstPieces *current = list;
     if (list != NULL) {
-            printf("Printing list { ");
-
-        do{
-        cout << "Piece: " << current->piece->color << " " << current->piece->shape << "  ";
-        current = current->next;
-        }while (current != list);
+        printf("Printing list { ");
+        while (current != nullptr){
+            cout << "Piece: " << current->piece->color << " " << current->piece->shape << "  ";
+            current = current->next;
+        }
         printf(" }\n");
-    }
-    
-}
-
+    }else{
+        cout<< "List is empty"<<endl;
+    }}
 void LstPieces::vanishPiece(LstPieces **list) {
-    if (*list == NULL || (*list)->next == *list || (*list)->next->next == *list)
+    if (*list == NULL)
         return;
 
     LstPieces *beforePrev = NULL;
     LstPieces *prev = *list;
     LstPieces *current = prev->next;
+    if (current == NULL)
+        return;
     LstPieces *next = current->next;
+    if (next == NULL)
+        return;
 
-    // Create a set to hold the nodes that need to be deleted
     std::unordered_set<LstPieces*> toDelete;
 
-    do {
-        if (prev->piece->color == current->piece->color && current->piece->color == next->piece->color||prev->piece->shape == current->piece->shape && current->piece->shape == next->piece->shape) {
-            cout << prev->piece->color << " " << prev->piece->shape << endl;
-            cout << current->piece->color << " " << current->piece->shape << endl;
-            cout << next->piece->color << " " << next->piece->shape << endl;
-            cout << "3 consecutive pieces with the same color" << endl;
+    while (next != NULL) {
+        if ((prev->piece->color == current->piece->color && current->piece->color == next->piece->color) ||
+            (prev->piece->shape == current->piece->shape && current->piece->shape == next->piece->shape)) {
 
             if (beforePrev == NULL) {
-                // The sequence starts at the head of the list
                 *list = next->next;
             } else {
                 beforePrev->next = next->next;
             }
 
-            // Add the nodes to the set instead of deleting them immediately
             toDelete.insert(prev);
             toDelete.insert(current);
             toDelete.insert(next);
@@ -128,7 +130,11 @@ void LstPieces::vanishPiece(LstPieces **list) {
             } else {
                 prev = beforePrev;
             }
+            if (prev == NULL)
+                break;
             current = prev->next;
+            if (current == NULL)
+                break;
             next = current->next;
         } else {
             beforePrev = prev;
@@ -136,17 +142,20 @@ void LstPieces::vanishPiece(LstPieces **list) {
             current = next;
             next = next->next;
         }
-    } while (current != *list);
+    }
 
-    // Now delete all the nodes in the set
     for (LstPieces* node : toDelete) {
-        cout<<node->piece->color<<" "<<node->piece->shape<<endl;
         delete node->piece;
         // delete node;
     }
 
-    cout << "No three consecutive pieces with the same color found in the list!!!\n";
+    if (*list == NULL) {
+        cout << "You win" << endl;
+    } else {
+        cout << "No three consecutive pieces with the same color or shape found in the list!!!\n";
+    }
 }
+
 
 Color getColorFromString(const string& colorStr) {
     if (colorStr == "r") return red;

@@ -19,7 +19,7 @@ void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
     LstPieces *current = list;
     sf::Color fillColor;
     sf::Vector2f position(100.f, 500.f); // Starting position for the shapes
-    if (list != nullptr) {
+    if (list != NULL) {
         do {
             // Get the color and shape information from the current node
             Color color = current->piece->color;
@@ -72,7 +72,7 @@ void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
 
             // Move to the next node in the list
             current = current->next;
-        } while (current != list);
+        } while (current != NULL);
     }
 }
 void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape)
@@ -125,11 +125,7 @@ void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
 void gui::gamePage(LstPieces* list){
     
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
-    for (int i = 0; i < numPieces; ++i) {
-         randomColor = static_cast<Color>(rand() % 4);
-         randomShape = static_cast<Shapes>(rand() % 4);
-        list->insertPieceRight(&list, randomColor, randomShape);
-    }
+    list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
     while (window.isOpen()) {
         // Generate random color and shape for each iteration
         
@@ -144,17 +140,18 @@ void gui::gamePage(LstPieces* list){
             if (event.type == sf::Event::KeyPressed) {
                 
                 if (event.key.code == sf::Keyboard::Left) {
-                    list->insertPieceLeft(&list, randomColor, randomShape);
-                    list->vanishPiece(&list);
+                    list->insertPieceLeft(&list,randomColor, randomShape);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                     
                 } else if (event.key.code == sf::Keyboard::Right) {
-                    list->insertPieceRight(&list, randomColor, randomShape);
-                    list->vanishPiece(&list);
+                    list->insertPieceRight(randomColor, randomShape);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                 }
+
+                // Call vanishPiece after each insertion
+                list->vanishPiece(&list);
             }
             
         }

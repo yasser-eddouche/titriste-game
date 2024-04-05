@@ -64,6 +64,9 @@ void drawList(LstPieces *list, sf::RenderWindow& window, ShapesForm& shapesForm)
             // Move to the next node in the list
             current = current->next;
         } while (current != list);
+    }else{
+        cout<< "List is empty"<<endl;
+        break;
     }
 }
 

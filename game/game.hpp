@@ -29,9 +29,11 @@ class LstPieces {
         ~LstPieces();
         
         void insertPieceLeft(LstPieces**, Color color, Shapes shape);
-        void insertPieceRight(LstPieces**, Color color, Shapes shape) ;
+        void insertPieceRight(Color color, Shapes shape) ;
+        void initialInsert(LstPieces**,int );
         void vanishPiece(LstPieces**);
         void printList(LstPieces*);
+        // void printListAndVanish(LstPieces **);
 };
 
 Color getColorFromString(const string& colorStr);
