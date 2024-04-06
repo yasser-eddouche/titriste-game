@@ -1,9 +1,9 @@
-#include "gui.hpp"
+#include "Gui.hpp"
 
-gui::gui(LstPieces* list)
+Gui::Gui(LstPieces* list)
 {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    window.create(sf::VideoMode(1000, 600), "Titriste");
+    window.create(sf::VideoMode(1300, 650), "Titriste");
     shapesForm = ShapesForm();
 
     randomColor = static_cast<Color>(rand() % 4);
@@ -11,10 +11,10 @@ gui::gui(LstPieces* list)
     // LstPieces *list = nullptr; // Allocate memory for the first node
     
 }
-gui::~gui()
+Gui::~Gui()
 {
 }
-void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
+void Gui::drawList(LstPieces* list, ShapesForm& shapesForm)
 {   
     LstPieces *current = list;
     sf::Color fillColor;
@@ -75,7 +75,7 @@ void gui::drawList(LstPieces* list, ShapesForm& shapesForm)
         } while (current != NULL);
     }
 }
-void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape)
+void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape)
 {
     sf::Color fillColor;
     sf::Vector2f position(100.f, 100.f); // Starting position for the shapes
@@ -122,14 +122,15 @@ void gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
             }
 }
 
-void gui::gamePage(LstPieces* list){
+void Gui::gamePage(LstPieces* list){
     
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
     list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
+    gameStatus = GameStatus::playing;
     while (window.isOpen()) {
         // Generate random color and shape for each iteration
-        
         window.clear(sf::Color::White); // Clear window with white background
+        if (gameStatus == GameStatus::playing) {
         generatePieces(shapesForm, randomColor, randomShape);
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -141,6 +142,7 @@ void gui::gamePage(LstPieces* list){
                 
                 if (event.key.code == sf::Keyboard::Left) {
                     list->insertPieceLeft(&list,randomColor, randomShape);
+                    
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                     
@@ -149,7 +151,20 @@ void gui::gamePage(LstPieces* list){
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                 }
-
+                // switch (event.key.code)
+                // {
+                // case sf::Keyboard::G:
+                //     list->
+                //     /* code */
+                //     break;
+                
+                // default:
+                //     break;
+                // }
+                
+               if (list->countPieces() > 10) {
+                    gameStatus = GameStatus::lose;
+                }
                 // Call vanishPiece after each insertion
                 list->vanishPiece(&list);
             }
@@ -158,7 +173,29 @@ void gui::gamePage(LstPieces* list){
         
 
         drawList(list, shapesForm);
+        }else if (gameStatus == GameStatus::lose) {
+        
+        gameStatus = GameStatus::lose;
+        loseGamePage();
+        }
         
         window.display();
     }
+}
+
+void Gui::loseGamePage(){
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    if (!font.loadFromFile("font/arial.ttf")) {
+        std::cerr << "Error loading font" << std::endl;
+    }
+    sf::Text text;
+    text.setFont(font);
+    text.setString("You lose!");
+    text.setCharacterSize(50);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(500.f, 300.f);
+    window.draw(text);
+    window.display();
+    sf::sleep(sf::seconds(2));
 }

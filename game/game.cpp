@@ -50,7 +50,10 @@ void LstPieces::insertPieceRight(Color color, Shapes shape) {
 
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
-
+    if (this->countPieces() > 10) {
+        cout << "You lose" << endl;
+        return;
+    }
     if (this == nullptr) {
         cout << "you win" << endl;
     } else {
@@ -72,7 +75,10 @@ void LstPieces::insertPieceLeft(LstPieces **list, Color color, Shapes shape) {
 
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
-
+    if (this->countPieces() > 10) {
+        cout << "You lose" << endl;
+        return;
+    }
     if (*list == nullptr) {
         // *list = newNode;
         cout << "you win" << endl;
@@ -84,9 +90,9 @@ void LstPieces::insertPieceLeft(LstPieces **list, Color color, Shapes shape) {
     // Free the memory allocated for newNode
 }
 
-void LstPieces::printList(LstPieces *list){
-    LstPieces *current = list;
-    if (list != NULL) {
+void LstPieces::printList(){
+    LstPieces *current = this;
+    if (this != NULL) {
         printf("Printing list { ");
         while (current != nullptr){
             cout << "Piece: " << current->piece->color << " " << current->piece->shape << "  ";
@@ -156,7 +162,34 @@ void LstPieces::vanishPiece(LstPieces **list) {
     }
 }
 
+int LstPieces::countPieces() {
+    int count = 0;
+    LstPieces *current = this;
+    while (current != nullptr) {
+        count++;
+        current = current->next;
+    }
+    return count;
+}
+// void LstPieces::shiftShapesByColor(Color color, Shapes shift) {
+//     LstPieces *current = this;
+//     while (current != nullptr) {
+//         if (current->piece->color == color) {
+//             current->piece->shape = shift;
+//         }
+//         current = current->next;
+//     }
+// }
 
+// void LstPieces::shiftColorsByShape(Shapes shape, Color shift) {
+//     LstPieces *current = this;
+//     while (current != nullptr) {
+//         if (current->piece->shape == shape) {
+//             current->piece->color = shift;
+//         }
+//         current = current->next;
+//     }
+// }
 Color getColorFromString(const string& colorStr) {
     if (colorStr == "r") return red;
     if (colorStr == "g") return green;

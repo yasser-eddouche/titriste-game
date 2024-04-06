@@ -2,7 +2,7 @@
 // #include "game/game.hpp"
 #include <cstdlib> // For rand() and srand()
 #include <ctime> 
-#include "gui/gui.hpp"
+#include "gui/Gui.hpp"
 // #include <SFML/Graphics.hpp>  // For time()
 using namespace std;
 
@@ -11,7 +11,7 @@ int main() {
 
     // Création de la liste de pièces
     LstPieces *list = NULL;
-    gui game(list);
+    Gui game(list);
     // int numPieces = rand() % 2 + 4; // Generates either 4 or 5
     // for (int i = 0; i < numPieces; ++i) {
     //     Color randomColor = static_cast<Color>(rand() % 4);   // Generates a random color

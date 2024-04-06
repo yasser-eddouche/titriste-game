@@ -32,7 +32,10 @@ class LstPieces {
         void insertPieceRight(Color color, Shapes shape) ;
         void initialInsert(LstPieces**,int );
         void vanishPiece(LstPieces**);
-        void printList(LstPieces*);
+        void printList();
+        int countPieces();
+        void shiftShapesByColor(Color,Shapes);
+        void shiftColorsByShape(Shapes,Color);
         // void printListAndVanish(LstPieces **);
 };
 

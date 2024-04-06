@@ -4,8 +4,8 @@ all:
 	# g++ -c test.cpp shapes/shapes.cpp   -lncurses
 	# g++ test.o shapes.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 	# ./sfml-app
-	g++ -c main.cpp gui/gui.cpp game/game.cpp shapes/shapes.cpp -lncurses
-	g++ main.o gui.o game.o shapes.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
+	g++ -c main.cpp gui/Gui.cpp game/game.cpp shapes/shapes.cpp -lncurses
+	g++ main.o Gui.o game.o shapes.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
 	./sfml-app
 	rm *.o
 	# g++ -o tit tit.cpp -lncurses
