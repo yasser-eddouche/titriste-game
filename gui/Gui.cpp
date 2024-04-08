@@ -3,7 +3,7 @@
 Gui::Gui(LstPieces* list)
 {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    window.create(sf::VideoMode(1300, 650), "Titriste");
+    
     shapesForm = ShapesForm();
 
     randomColor = static_cast<Color>(rand() % 4);
@@ -14,7 +14,7 @@ Gui::Gui(LstPieces* list)
 Gui::~Gui()
 {
 }
-void Gui::drawList(LstPieces* list, ShapesForm& shapesForm)
+void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& window)
 {   
     LstPieces *current = list;
     sf::Color fillColor;
@@ -75,7 +75,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm)
         } while (current != NULL);
     }
 }
-void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape)
+void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape, sf::RenderWindow& window)
 {
     sf::Color fillColor;
     sf::Vector2f position(100.f, 100.f); // Starting position for the shapes
@@ -122,16 +122,16 @@ void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
             }
 }
 
-void Gui::gamePage(LstPieces* list){
+void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
     list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
     gameStatus = GameStatus::playing;
     while (window.isOpen()) {
         // Generate random color and shape for each iteration
-        window.clear(sf::Color::White); // Clear window with white background
+        window.clear(sf::Color::Black); // Clear window with white background
         if (gameStatus == GameStatus::playing) {
-        generatePieces(shapesForm, randomColor, randomShape);
+        generatePieces(shapesForm, randomColor, randomShape,window);
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -172,20 +172,20 @@ void Gui::gamePage(LstPieces* list){
         }
         
 
-        drawList(list, shapesForm);
+        drawList(list, shapesForm,window);
         }else if (gameStatus == GameStatus::lose) {
         
         gameStatus = GameStatus::lose;
-        loseGamePage();
+        loseGamePage(window);
         }
         
         window.display();
     }
 }
 
-void Gui::loseGamePage(){
+void Gui::loseGamePage(sf::RenderWindow& window){
     sf::Font font;
-    font.loadFromFile("arial.ttf");
+    font.loadFromFile("font/arial.ttf");
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Error loading font" << std::endl;
     }

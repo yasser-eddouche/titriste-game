@@ -11,17 +11,17 @@ class Gui
 {
 // LstPieces *list ;
 GameStatus gameStatus;
-sf::RenderWindow window;
+// sf::RenderWindow window;
 ShapesForm shapesForm;
 Color randomColor;
 Shapes randomShape;
 public:
     Gui(LstPieces*);
     ~Gui();
-    void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape);
-    void drawList(LstPieces*,ShapesForm&);
-    void gamePage(LstPieces*);
+    void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape,sf::RenderWindow&);
+    void drawList(LstPieces*,ShapesForm&,sf::RenderWindow&);
+    void gamePage(LstPieces*,sf::RenderWindow&);
     
-    void loseGamePage();
+    void loseGamePage(sf::RenderWindow&);
 };
 
