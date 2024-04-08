@@ -21,7 +21,7 @@ public:
     void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape,sf::RenderWindow&);
     void drawList(LstPieces*,ShapesForm&,sf::RenderWindow&);
     void gamePage(LstPieces*,sf::RenderWindow&);
-    
-    void loseGamePage(sf::RenderWindow&);
+    void winGamePage(sf::RenderWindow&);
+    void loseGamePage(sf::RenderWindow&,int);
 };
 

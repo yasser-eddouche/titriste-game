@@ -4,6 +4,7 @@
 LstPieces::LstPieces() {
     piece = nullptr;
     next = nullptr;
+    // score = 0;
 }
 
 LstPieces::~LstPieces() {
@@ -102,7 +103,7 @@ void LstPieces::printList(){
     }else{
         cout<< "List is empty"<<endl;
     }}
-void LstPieces::vanishPiece(LstPieces **list) {
+void LstPieces::vanishPiece(LstPieces **list,int &score) {
     if (*list == NULL)
         return;
 
@@ -130,7 +131,7 @@ void LstPieces::vanishPiece(LstPieces **list) {
             toDelete.insert(prev);
             toDelete.insert(current);
             toDelete.insert(next);
-
+            score ++;
             if (beforePrev == NULL) {
                 prev = *list;
             } else {
@@ -142,6 +143,7 @@ void LstPieces::vanishPiece(LstPieces **list) {
             if (current == NULL)
                 break;
             next = current->next;
+            
         } else {
             beforePrev = prev;
             prev = current;
@@ -154,7 +156,7 @@ void LstPieces::vanishPiece(LstPieces **list) {
         delete node->piece;
         // delete node;
     }
-
+    cout << "Score: " << score << endl;
     if (*list == NULL) {
         cout << "You win" << endl;
     } else {

@@ -6,7 +6,8 @@
 int main()
 {   
     LstPieces *list = NULL;
-    
+    int score ;
+    int maxScore = 0;
     ShapesForm shapesForm;
     // create the window
     sf::RenderWindow window(sf::VideoMode(1300, 650), "Titriste");
@@ -53,9 +54,36 @@ int main()
 
     shapesForm.setDiamond(80.f, sf::Color::Green, sf::Color::Black, 2.f);
     shapesForm.getDiamond().setPosition(1100,400);
-    // run the main loop
+    FILE *scoreFile = fopen("score.txt", "r");
+    if (scoreFile == NULL) {
+            printf("Could not open file scores.txt\n");
+        } else {
+            while (fscanf(scoreFile, "%d", &score) != EOF) {
+                if (score > maxScore) {
+                    maxScore = score;
+                }
+            }
+            cout << "Score: " << maxScore << endl;
+        }
+    sf::Text scoreText;
+        scoreText.setFont(font);
+        scoreText.setString("Best Score: "+std::to_string(maxScore));
+        scoreText.setCharacterSize(30);
+        scoreText.setFillColor(sf::Color::White);
+        scoreText.setPosition(550.f, 580.f);
+
     while (window.isOpen())
     {
+        if (scoreFile == NULL) {
+            printf("Could not open file scores.txt\n");
+        } else {
+            while (fscanf(scoreFile, "%d", &score) != EOF) {
+                if (score > maxScore) {
+                    maxScore = score;
+                }
+            }
+            // cout << "Score: " << maxScore << endl;
+        }
         // handle events
         sf::Event event;
         while (window.pollEvent(event))
@@ -97,6 +125,7 @@ int main()
         } else {
             button2Text.setFillColor(sf::Color::White); // change color back to white
         }
+        
         // draw it
         window.clear();
         window.draw(shapesForm.getCircle());
@@ -109,9 +138,9 @@ int main()
         window.draw(button1Text);
         window.draw(button2);
         window.draw(button2Text);
-        
+        window.draw(scoreText);
         window.display();
     }
-
+    fclose(scoreFile);
     return 0;
 }

@@ -21,6 +21,7 @@ public:
 class LstPieces {
     
     public:
+        // int score =0;
         Piece *piece;
         LstPieces *next;
         // LstPieces *head; // Pointeur de tête pour la liste
@@ -31,7 +32,7 @@ class LstPieces {
         void insertPieceLeft(LstPieces**, Color color, Shapes shape);
         void insertPieceRight(Color color, Shapes shape) ;
         void initialInsert(LstPieces**,int );
-        void vanishPiece(LstPieces**);
+        void vanishPiece(LstPieces**,int&);
         void printList();
         int countPieces();
         void shiftShapesByColor(Color,Shapes);
