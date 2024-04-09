@@ -18,7 +18,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
 {   
     LstPieces *current = list;
     sf::Color fillColor;
-    sf::Vector2f position(100.f, 500.f); // Starting position for the shapes
+    sf::Vector2f position(100.f, 550.f); // Starting position for the shapes
     if (list != NULL) {
         do {
             // Get the color and shape information from the current node
@@ -67,7 +67,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
             }
 
             // Update position for the next shape
-            position.x += 100.f; // Adjust as needed
+            position.x += 95.f; // Adjust as needed
             position.y += 0.f;   // Adjust as needed
 
             // Move to the next node in the list
@@ -78,7 +78,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
 void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape, sf::RenderWindow& window)
 {
     sf::Color fillColor;
-    sf::Vector2f position(100.f, 100.f); // Starting position for the shapes
+    sf::Vector2f position(100.f, 200.f); // Starting position for the shapes
 
     switch (randomColor) {
                 case red:
@@ -145,8 +145,6 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
        
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
             
             // Handle key press events here
             if (event.type == sf::Event::KeyPressed) {
@@ -163,12 +161,14 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                      randomShape = static_cast<Shapes>(rand() % 4);
                 }
                 
+                if (event.type == sf::Event::Closed)
+                window.close();
                 if (list==nullptr)
                 {
                     gameStatus = GameStatus::win;
                 }
                 
-               if (list->countPieces() > 10) {
+               if (list->countPieces() > 15) {
                     gameStatus = GameStatus::lose;
                 }
                 // Call vanishPiece after each insertion

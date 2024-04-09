@@ -10,7 +10,7 @@ int main()
     int maxScore = 0;
     ShapesForm shapesForm;
     // create the window
-    sf::RenderWindow window(sf::VideoMode(1300, 650), "Titriste");
+    sf::RenderWindow window(sf::VideoMode(1600, 650), "Titriste");
 
     // create the particle system
     ParticleSystem particles(1000);
@@ -26,34 +26,34 @@ int main()
 
     // create a title
     sf::Text title("Titriste", font, 80);
-    title.setPosition(500, 20);
+    title.setPosition(650, 20);
 
     // create two buttons
     sf::RectangleShape button1(sf::Vector2f(300, 70));
     button1.setFillColor(sf::Color(0, 0, 0, 128)); // semi-transparent green
-    button1.setPosition(500, 280);
+    button1.setPosition(650, 280);
 
     sf::Text button1Text("Start", font, 50);
-    button1Text.setPosition(580, 290);
+    button1Text.setPosition(730, 290);
 
     sf::RectangleShape button2(sf::Vector2f(300, 70));
     button2.setFillColor(sf::Color(0, 0, 0, 128)); // semi-transparent red
-    button2.setPosition(500, 370);
+    button2.setPosition(650, 370);
 
     sf::Text button2Text("Quit", font, 50);
-    button2Text.setPosition(590, 380);
+    button2Text.setPosition(740, 380);
 
     shapesForm.setCircle(60.f, sf::Color::Red, sf::Color::Black, 2.f);
-    shapesForm.getCircle().setPosition(250,200);
+    shapesForm.getCircle().setPosition(350,200);
 
     shapesForm.setSquare(100.f, sf::Color::Yellow, sf::Color::Black, 2.f);
-    shapesForm.getSquare().setPosition(1000,300);
+    shapesForm.getSquare().setPosition(1250,250);
 
     shapesForm.setTriangle(100.f, sf::Color::Blue, sf::Color::Black, 2.f);
-    shapesForm.getTriangle().setPosition(100,500);
+    shapesForm.getTriangle().setPosition(200,500);
 
     shapesForm.setDiamond(80.f, sf::Color::Green, sf::Color::Black, 2.f);
-    shapesForm.getDiamond().setPosition(1100,400);
+    shapesForm.getDiamond().setPosition(1300,400);
     FILE *scoreFile = fopen("score.txt", "r");
     if (scoreFile == NULL) {
             printf("Could not open file scores.txt\n");
@@ -70,20 +70,11 @@ int main()
         scoreText.setString("Best Score: "+std::to_string(maxScore));
         scoreText.setCharacterSize(30);
         scoreText.setFillColor(sf::Color::White);
-        scoreText.setPosition(550.f, 580.f);
+        scoreText.setPosition(700.f, 580.f);
 
     while (window.isOpen())
     {
-        if (scoreFile == NULL) {
-            printf("Could not open file scores.txt\n");
-        } else {
-            while (fscanf(scoreFile, "%d", &score) != EOF) {
-                if (score > maxScore) {
-                    maxScore = score;
-                }
-            }
-            // cout << "Score: " << maxScore << endl;
-        }
+        
         // handle events
         sf::Event event;
         while (window.pollEvent(event))
@@ -103,6 +94,16 @@ int main()
                     }
                 }
             }
+            if (scoreFile == NULL) {
+            printf("Could not open file scores.txt\n");
+        } else {
+            while (fscanf(scoreFile, "%d", &score) != EOF) {
+                if (score > maxScore) {
+                    maxScore = score;
+                }
+            }
+            // cout << "Score: " << maxScore << endl;
+        }
         }
 
         // make the particle system emitter follow the mouse

@@ -51,7 +51,7 @@ void LstPieces::insertPieceRight(Color color, Shapes shape) {
 
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
-    if (this->countPieces() > 10) {
+    if (this->countPieces() > 15) {
         cout << "You lose" << endl;
         return;
     }
@@ -76,7 +76,7 @@ void LstPieces::insertPieceLeft(LstPieces **list, Color color, Shapes shape) {
 
     LstPieces *newNode = new LstPieces();
     newNode->piece = new Piece(newPiece);
-    if (this->countPieces() > 10) {
+    if (this->countPieces() > 15) {
         cout << "You lose" << endl;
         return;
     }
