@@ -35,12 +35,5 @@ class LstPieces {
         void vanishPiece(LstPieces**,int&);
         void printList();
         int countPieces();
-        void shiftShapesByColor(Color,Shapes);
-        void shiftColorsByShape(Shapes,Color);
-        // void printListAndVanish(LstPieces **);
 };
-
-Color getColorFromString(const string& colorStr);
-Shapes getShapeFromString(const string& shapeStr);
-
 

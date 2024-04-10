@@ -76,51 +76,122 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
     }
 }
 void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape, sf::RenderWindow& window)
-{
-    sf::Color fillColor;
-    sf::Vector2f position(100.f, 200.f); // Starting position for the shapes
+{   
+    randomColor = static_cast<Color>(rand() % 4);   // Generates a random color
+    randomShape = static_cast<Shapes>(rand() % 4);
+    // sf::Color fillColor;
+    // sf::Vector2f position(100.f, 200.f); // Starting position for the shapes
 
-    switch (randomColor) {
-                case red:
-                    fillColor = sf::Color::Red;
-                    break;
-                case green:
-                    fillColor = sf::Color::Green;
-                    break;
-                case blue:
-                    fillColor = sf::Color::Blue;
-                    break;
-                case yellow:
-                    fillColor = sf::Color::Yellow;
-                    break;
-                default:
-                    fillColor = sf::Color::White; // Default color
-                    break;
-            }
-            // Draw the shape based on its type
-            switch (randomShape) {
-                case circle:
-                    shapesForm.setCircle(40.f, fillColor, sf::Color::Black, 2.f);
-                    shapesForm.getCircle().setPosition(position);
-                    window.draw(shapesForm.getCircle());
-                    break;
-                case square:
-                    shapesForm.setSquare(70.f, fillColor, sf::Color::Black, 2.f);
-                    shapesForm.getSquare().setPosition(position);
-                    window.draw(shapesForm.getSquare());
-                    break;
-                case triangle:
-                    shapesForm.setTriangle(70.f, fillColor, sf::Color::Black, 2.f);
-                    shapesForm.getTriangle().setPosition(position);
-                    window.draw(shapesForm.getTriangle());
-                    break;
-                case diamond:
-                    shapesForm.setDiamond(60.f, fillColor, sf::Color::Black, 2.f);
-                    shapesForm.getDiamond().setPosition(position);
-                    window.draw(shapesForm.getDiamond());
-                    break;
-            }
+    // switch (randomColor) {
+    //             case red:
+    //                 fillColor = sf::Color::Red;
+    //                 break;
+    //             case green:
+    //                 fillColor = sf::Color::Green;
+    //                 break;
+    //             case blue:
+    //                 fillColor = sf::Color::Blue;
+    //                 break;
+    //             case yellow:
+    //                 fillColor = sf::Color::Yellow;
+    //                 break;
+    //             default:
+    //                 fillColor = sf::Color::White; // Default color
+    //                 break;
+    //         }
+    //         // Draw the shape based on its type
+    //         switch (randomShape) {
+    //             case circle:
+    //                 shapesForm.setCircle(40.f, fillColor, sf::Color::Black, 2.f);
+    //                 shapesForm.getCircle().setPosition(position);
+    //                 window.draw(shapesForm.getCircle());
+    //                 break;
+    //             case square:
+    //                 shapesForm.setSquare(70.f, fillColor, sf::Color::Black, 2.f);
+    //                 shapesForm.getSquare().setPosition(position);
+    //                 window.draw(shapesForm.getSquare());
+    //                 break;
+    //             case triangle:
+    //                 shapesForm.setTriangle(70.f, fillColor, sf::Color::Black, 2.f);
+    //                 shapesForm.getTriangle().setPosition(position);
+    //                 window.draw(shapesForm.getTriangle());
+    //                 break;
+    //             case diamond:
+    //                 shapesForm.setDiamond(60.f, fillColor, sf::Color::Black, 2.f);
+    //                 shapesForm.getDiamond().setPosition(position);
+    //                 window.draw(shapesForm.getDiamond());
+    //                 break;
+    //         }
+    nextPiecesQueue.push(std::make_pair(randomColor, randomShape));
 }
+
+void Gui::printAllPieces() {
+    std::queue<std::pair<Color, Shapes>> copyQueue = nextPiecesQueue;
+
+    while (!copyQueue.empty()) {
+        std::pair<Color, Shapes> piece = copyQueue.front();
+        copyQueue.pop();
+
+        std::cout << "Color: " << piece.first << ", Shape: " << piece.second << std::endl;
+    }
+}
+void Gui::drawNextPieces(ShapesForm& shapesForm, sf::RenderWindow& window) {
+    sf::Vector2f position(100.f, 100.f); // Starting position for the next pieces
+
+    std::queue<std::pair<Color, Shapes>> copyQueue = nextPiecesQueue;
+
+    while (!copyQueue.empty()) {
+        std::pair<Color, Shapes> nextPiece = copyQueue.front();
+        copyQueue.pop();
+
+        sf::Color fillColor;
+
+        switch (nextPiece.first) {
+            case 0:
+                fillColor = sf::Color::Red;
+                break;
+            case 1:
+                fillColor = sf::Color::Green;
+                break;
+            case 2:
+                fillColor = sf::Color::Blue;
+                break;
+            case 3:
+                fillColor = sf::Color::Yellow;
+                break;
+            default:
+                break;
+        }
+
+        // Draw the shape based on its type
+        switch (nextPiece.second) {
+            case 0:
+                shapesForm.setCircle(40.f, fillColor, sf::Color::Black, 2.f);
+                shapesForm.getCircle().setPosition(position);
+                window.draw(shapesForm.getCircle());
+                break;
+            case 1:
+                shapesForm.setSquare(70.f, fillColor, sf::Color::Black, 2.f);
+                shapesForm.getSquare().setPosition(position);
+                window.draw(shapesForm.getSquare());
+                break;
+            case 2:
+                shapesForm.setTriangle(70.f, fillColor, sf::Color::Black, 2.f);
+                shapesForm.getTriangle().setPosition(position);
+                window.draw(shapesForm.getTriangle());
+                break;
+            case 3:
+                shapesForm.setDiamond(60.f, fillColor, sf::Color::Black, 2.f);
+                shapesForm.getDiamond().setPosition(position);
+                window.draw(shapesForm.getDiamond());
+                break;
+        }
+
+        // Update position for the next shape
+        position.x += 100.f; // Adjust as needed
+    }
+}
+
 
 void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     FILE* ScoreFile;
@@ -131,32 +202,36 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
     gameStatus = GameStatus::playing;
     sf::RectangleShape exit(sf::Vector2f(80, 60));
-    exit.setFillColor(sf::Color(0, 0, 0, 128)); // semi-transparent green
-    exit.setPosition(1070, 60);
+    exit.setFillColor(sf::Color(0, 0, 0, 0)); // semi-transparent green
+    exit.setPosition(1370, 63);
     sf::Text exitText("exit", font, 30);
-    exitText.setPosition(1080, 62);
+    exitText.setPosition(1380, 67);
     ScoreFile = fopen("score.txt", "a+");
+    for (int i = 0; i < 5; i++)
+    {
+        generatePieces(shapesForm, randomColor, randomShape,window);
+    }
     while (window.isOpen()) {
-       
         
+         
         window.clear(); // Clear window with white background
         if (gameStatus == GameStatus::playing) {
-        generatePieces(shapesForm, randomColor, randomShape,window);
-       
+        
+        drawNextPieces(shapesForm, window);
+        
         sf::Event event;
         while (window.pollEvent(event)) {
-            
+             std::pair<Color, Shapes> piece = nextPiecesQueue.front();
             // Handle key press events here
             if (event.type == sf::Event::KeyPressed) {
-                
+                nextPiecesQueue.pop();
                 if (event.key.code == sf::Keyboard::Left) {
-                    list->insertPieceLeft(&list,randomColor, randomShape);
-                    
+                    list->insertPieceLeft(&list,piece.first, piece.second);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                     
                 } else if (event.key.code == sf::Keyboard::Right) {
-                    list->insertPieceRight(randomColor, randomShape);
+                    list->insertPieceRight(piece.first, piece.second);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
                 }
@@ -173,7 +248,9 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                 }
                 // Call vanishPiece after each insertion
                 list->vanishPiece(&list,score);
-                
+                // generateNextPieces(nextPieces);
+                generatePieces(shapesForm, randomColor, randomShape,window);
+                // drawNextPieces(shapesForm, window);
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -201,7 +278,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         scoreText.setString(std::to_string(score));
         scoreText.setCharacterSize(50);
         scoreText.setFillColor(sf::Color::White);
-        scoreText.setPosition(950.f, 50.f);
+        scoreText.setPosition(1170.f, 50.f);
         window.draw(scoreText);
         window.draw(exit);
         
@@ -238,12 +315,12 @@ void Gui::loseGamePage(sf::RenderWindow& window,int score){
     scoreText.setString("Score: "+std::to_string(score));
     scoreText.setCharacterSize(50);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(550.f, 100.f);
+    scoreText.setPosition(710.f, 100.f);
     text.setFont(font);
     text.setString("Game Over!");
-    text.setCharacterSize(50);
+    text.setCharacterSize(70);
     text.setFillColor(sf::Color::White);
-    text.setPosition(500.f, 300.f);
+    text.setPosition(600.f, 300.f);
 
    
     window.draw(text);
@@ -261,9 +338,9 @@ void Gui::winGamePage(sf::RenderWindow& window){
     sf::Text text;
     text.setFont(font);
     text.setString("Winner!");
-    text.setCharacterSize(50);
+    text.setCharacterSize(70);
     text.setFillColor(sf::Color::White);
-    text.setPosition(500.f, 300.f);
+    text.setPosition(600.f, 300.f);
 
    
     window.draw(text);

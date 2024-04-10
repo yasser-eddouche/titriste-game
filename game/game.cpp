@@ -173,39 +173,3 @@ int LstPieces::countPieces() {
     }
     return count;
 }
-// void LstPieces::shiftShapesByColor(Color color, Shapes shift) {
-//     LstPieces *current = this;
-//     while (current != nullptr) {
-//         if (current->piece->color == color) {
-//             current->piece->shape = shift;
-//         }
-//         current = current->next;
-//     }
-// }
-
-// void LstPieces::shiftColorsByShape(Shapes shape, Color shift) {
-//     LstPieces *current = this;
-//     while (current != nullptr) {
-//         if (current->piece->shape == shape) {
-//             current->piece->color = shift;
-//         }
-//         current = current->next;
-//     }
-// }
-Color getColorFromString(const string& colorStr) {
-    if (colorStr == "r") return red;
-    if (colorStr == "g") return green;
-    if (colorStr == "b") return blue;
-    if (colorStr == "y") return yellow;
-    // Gérer le cas d'erreur ou de valeur par défaut
-    return red; // Par défaut, retourne red si la couleur n'est pas valide
-}
-
-Shapes getShapeFromString(const string& shapeStr) {
-    if (shapeStr == "c") return circle;
-    if (shapeStr == "s") return square;
-    if (shapeStr == "t") return triangle;
-    if (shapeStr == "d") return diamond;
-    // Gérer le cas d'erreur ou de valeur par défaut
-    return square; // Par défaut, retourne square si la forme n'est pas valide
-}
