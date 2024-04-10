@@ -19,7 +19,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
     LstPieces *current = list;
     sf::Color fillColor;
     sf::Vector2f position(100.f, 550.f); // Starting position for the shapes
-    if (list != NULL) {
+    if (list != nullptr) {
         do {
             // Get the color and shape information from the current node
             Color color = current->piece->color;
@@ -72,7 +72,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
 
             // Move to the next node in the list
             current = current->next;
-        } while (current != NULL);
+        } while (current != list);
     }
 }
 void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape, sf::RenderWindow& window)
@@ -199,7 +199,12 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     sf::Font font;
     
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
-    list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
+    // list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
+    for (int i = 0; i < numPieces; ++i) {
+         randomColor = static_cast<Color>(rand() % 4);
+         randomShape = static_cast<Shapes>(rand() % 4);
+        list->insertPieceRight(&list, randomColor, randomShape);
+    }
     gameStatus = GameStatus::playing;
     sf::RectangleShape exit(sf::Vector2f(80, 60));
     exit.setFillColor(sf::Color(0, 0, 0, 0)); // semi-transparent green
@@ -213,7 +218,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     }
     while (window.isOpen()) {
         
-         
+        list->vanishPiece(&list,score);
         window.clear(); // Clear window with white background
         if (gameStatus == GameStatus::playing) {
         
@@ -224,17 +229,24 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
              std::pair<Color, Shapes> piece = nextPiecesQueue.front();
             // Handle key press events here
             if (event.type == sf::Event::KeyPressed) {
-                nextPiecesQueue.pop();
+                
                 if (event.key.code == sf::Keyboard::Left) {
+                    nextPiecesQueue.pop();
                     list->insertPieceLeft(&list,piece.first, piece.second);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
-                    
+                    generatePieces(shapesForm, randomColor, randomShape,window);
                 } else if (event.key.code == sf::Keyboard::Right) {
-                    list->insertPieceRight(piece.first, piece.second);
+                    nextPiecesQueue.pop();
+                    list->insertPieceRight(&list,piece.first, piece.second);
                      randomColor = static_cast<Color>(rand() % 4);
                      randomShape = static_cast<Shapes>(rand() % 4);
+                     generatePieces(shapesForm, randomColor, randomShape,window);
+                }else if (event.key.code == sf::Keyboard::M)
+                {
+                    list->moveLastPieceToLeft(&list);
                 }
+                
                 
                 if (event.type == sf::Event::Closed)
                 window.close();
@@ -247,9 +259,9 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                     gameStatus = GameStatus::lose;
                 }
                 // Call vanishPiece after each insertion
-                list->vanishPiece(&list,score);
-                // generateNextPieces(nextPieces);
-                generatePieces(shapesForm, randomColor, randomShape,window);
+                // list->vanishPiece(&list,score);
+                // // generateNextPieces(nextPieces);
+                
                 // drawNextPieces(shapesForm, window);
             }
             if (event.type == sf::Event::MouseButtonPressed) {
@@ -270,7 +282,8 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
             }
             
         }
-         if (!font.loadFromFile("Raillinc.otf")) {
+        
+        if (!font.loadFromFile("Raillinc.otf")) {
             std::cerr << "Error loading font" << std::endl;
         }
         sf::Text scoreText;

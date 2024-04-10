@@ -92,7 +92,7 @@ void LstPieces::printList(LstPieces *list){
     
 }
 
-void LstPieces::vanishPiece(LstPieces **list) {
+void LstPieces::vanishPiece(LstPieces **list,int &score) {
     if (*list == NULL || (*list)->next == *list || (*list)->next->next == *list)
         return;
 
@@ -105,10 +105,8 @@ void LstPieces::vanishPiece(LstPieces **list) {
     std::unordered_set<LstPieces*> toDelete;
 
     do {
-        if (prev->piece->color == current->piece->color && current->piece->color == next->piece->color||prev->piece->shape == current->piece->shape && current->piece->shape == next->piece->shape) {
-            cout << prev->piece->color << " " << prev->piece->shape << endl;
-            cout << current->piece->color << " " << current->piece->shape << endl;
-            cout << next->piece->color << " " << next->piece->shape << endl;
+        if ((prev->piece->color == current->piece->color && current->piece->color == next->piece->color && next != *list) ||
+            (prev->piece->shape == current->piece->shape && current->piece->shape == next->piece->shape && next != *list)) {
             cout << "3 consecutive pieces with the same color" << endl;
 
             if (beforePrev == NULL) {
@@ -122,7 +120,7 @@ void LstPieces::vanishPiece(LstPieces **list) {
             toDelete.insert(prev);
             toDelete.insert(current);
             toDelete.insert(next);
-
+            score++;
             if (beforePrev == NULL) {
                 prev = *list;
             } else {
@@ -139,11 +137,33 @@ void LstPieces::vanishPiece(LstPieces **list) {
     } while (current != *list);
 
     // Now delete all the nodes in the set
+    // Now delete all the nodes in the set
     for (LstPieces* node : toDelete) {
         cout<<node->piece->color<<" "<<node->piece->shape<<endl;
+
+        // Find the node that points to this node and update its next pointer
+        LstPieces* current = *list;
+        do {
+            if (current->next == node) {
+                current->next = node->next;
+                break;
+            }
+            current = current->next;
+        } while (current != *list);
+
         delete node->piece;
         // delete node;
     }
 
     cout << "No three consecutive pieces with the same color found in the list!!!\n";
+}
+
+int LstPieces::countPieces() {
+    int count = 0;
+    LstPieces *current = this;
+    while (current != nullptr) {
+        count++;
+        current = current->next;
+    }
+    return count;
 }

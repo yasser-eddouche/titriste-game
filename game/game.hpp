@@ -30,10 +30,11 @@ class LstPieces {
         ~LstPieces();
         
         void insertPieceLeft(LstPieces**, Color color, Shapes shape);
-        void insertPieceRight(Color color, Shapes shape) ;
+        void insertPieceRight(LstPieces**,Color color, Shapes shape) ;
         void initialInsert(LstPieces**,int );
         void vanishPiece(LstPieces**,int&);
-        void printList();
+        void printList(LstPieces*);
         int countPieces();
+        void moveLastPieceToLeft(LstPieces **list);
 };
 
