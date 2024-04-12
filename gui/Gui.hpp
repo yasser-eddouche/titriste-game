@@ -5,6 +5,9 @@
 #include "../game/game.hpp"
 #include "../shapes/shapes.hpp"
 #include <queue> 
+#include "../LstShapes/LstShapes.hpp"
+#include "../LstColors/LstColors.hpp"
+
 enum GameStatus {
     playing, win, lose
 };
@@ -25,8 +28,6 @@ public:
     void gamePage(LstPieces*,sf::RenderWindow&);
     void winGamePage(sf::RenderWindow&);
     void loseGamePage(sf::RenderWindow&,int);
-    // void generateNextPiece(std::vector<std::pair<Color, Shapes>>& nextPieces);
-    // void generateNextPieces();
     void printAllPieces();
     void drawNextPieces( ShapesForm& shapesForm, sf::RenderWindow& window);
 };

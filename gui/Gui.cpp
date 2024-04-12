@@ -8,7 +8,7 @@ Gui::Gui(LstPieces* list)
 
     randomColor = static_cast<Color>(rand() % 4);
     randomShape = static_cast<Shapes>(rand() % 4);
-    // LstPieces *list = nullptr; // Allocate memory for the first node
+    
     
 }
 Gui::~Gui()
@@ -79,49 +79,7 @@ void Gui::generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomS
 {   
     randomColor = static_cast<Color>(rand() % 4);   // Generates a random color
     randomShape = static_cast<Shapes>(rand() % 4);
-    // sf::Color fillColor;
-    // sf::Vector2f position(100.f, 200.f); // Starting position for the shapes
 
-    // switch (randomColor) {
-    //             case red:
-    //                 fillColor = sf::Color::Red;
-    //                 break;
-    //             case green:
-    //                 fillColor = sf::Color::Green;
-    //                 break;
-    //             case blue:
-    //                 fillColor = sf::Color::Blue;
-    //                 break;
-    //             case yellow:
-    //                 fillColor = sf::Color::Yellow;
-    //                 break;
-    //             default:
-    //                 fillColor = sf::Color::White; // Default color
-    //                 break;
-    //         }
-    //         // Draw the shape based on its type
-    //         switch (randomShape) {
-    //             case circle:
-    //                 shapesForm.setCircle(40.f, fillColor, sf::Color::Black, 2.f);
-    //                 shapesForm.getCircle().setPosition(position);
-    //                 window.draw(shapesForm.getCircle());
-    //                 break;
-    //             case square:
-    //                 shapesForm.setSquare(70.f, fillColor, sf::Color::Black, 2.f);
-    //                 shapesForm.getSquare().setPosition(position);
-    //                 window.draw(shapesForm.getSquare());
-    //                 break;
-    //             case triangle:
-    //                 shapesForm.setTriangle(70.f, fillColor, sf::Color::Black, 2.f);
-    //                 shapesForm.getTriangle().setPosition(position);
-    //                 window.draw(shapesForm.getTriangle());
-    //                 break;
-    //             case diamond:
-    //                 shapesForm.setDiamond(60.f, fillColor, sf::Color::Black, 2.f);
-    //                 shapesForm.getDiamond().setPosition(position);
-    //                 window.draw(shapesForm.getDiamond());
-    //                 break;
-    //         }
     nextPiecesQueue.push(std::make_pair(randomColor, randomShape));
 }
 
@@ -197,7 +155,14 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     FILE* ScoreFile;
     int score = 0;
     sf::Font font;
-    
+    LstShapes *lstCircle = nullptr;
+    LstShapes *lstSquare = nullptr;
+    LstShapes *lstTriangle = nullptr;
+    LstShapes *lstDiamond = nullptr;
+    LstColors *lstRed = nullptr;
+    LstColors *lstGreen = nullptr;
+    LstColors *lstBlue = nullptr;
+    LstColors *lstYellow = nullptr;
     int numPieces = rand() % 2 + 4;    // Generates either 4 or 5
     // list->initialInsert(&list, numPieces); // Insert the initial pieces to the list
     for (int i = 0; i < numPieces; ++i) {
@@ -218,7 +183,11 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     }
     while (window.isOpen()) {
         
-        list->vanishPiece(&list,score);
+        
+        // lstCircle = new LstShapes(circle);
+        
+        // lstCircle->printList();
+        // lstCircle->shiftToLeft(&lstCircle);
         window.clear(); // Clear window with white background
         if (gameStatus == GameStatus::playing) {
         
@@ -229,7 +198,6 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
              std::pair<Color, Shapes> piece = nextPiecesQueue.front();
             // Handle key press events here
             if (event.type == sf::Event::KeyPressed) {
-                
                 if (event.key.code == sf::Keyboard::Left) {
                     nextPiecesQueue.pop();
                     list->insertPieceLeft(&list,piece.first, piece.second);
@@ -245,8 +213,40 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                 }else if (event.key.code == sf::Keyboard::M)
                 {
                     list->moveLastPieceToLeft(&list);
+                }else if (event.key.code == sf::Keyboard::S)
+                {   lstCircle->findSameShape(&lstCircle,&list,circle);
+                    lstSquare->findSameShape(&lstSquare,&list,square);
+                    lstTriangle->findSameShape(&lstTriangle,&list,triangle);
+                    lstDiamond->findSameShape(&lstDiamond,&list,diamond);
+                    
+                    lstCircle->shiftLeft(&lstCircle);
+                    lstSquare->shiftLeft(&lstSquare);
+                    lstTriangle->shiftLeft(&lstTriangle);
+                    lstDiamond->shiftLeft(&lstDiamond);
+
+                    lstCircle->adjustPositions(&lstCircle,&list,circle);
+                    lstSquare->adjustPositions(&lstSquare,&list,square);
+                    lstTriangle->adjustPositions(&lstTriangle,&list,triangle);
+                    lstDiamond->adjustPositions(&lstDiamond,&list,diamond);
+                }else if (event.key.code == sf::Keyboard::C)
+                {
+                    lstRed->findSameColor(&lstRed,&list,red);
+                    lstGreen->findSameColor(&lstGreen,&list,green);
+                    lstBlue->findSameColor(&lstBlue,&list,blue);
+                    lstYellow->findSameColor(&lstYellow,&list,yellow);
+                    
+                    lstRed->shiftLeft(&lstRed);
+                    lstGreen->shiftLeft(&lstGreen);
+                    lstBlue->shiftLeft(&lstBlue);
+                    lstYellow->shiftLeft(&lstYellow);
+
+                    lstRed->adjustPositions(&lstRed,&list,red);
+                    lstGreen->adjustPositions(&lstGreen,&list,green);
+                    lstBlue->adjustPositions(&lstBlue,&list,blue);
+                    lstYellow->adjustPositions(&lstYellow,&list,yellow);
                 }
                 
+                list->vanishPiece(&list,score);
                 
                 if (event.type == sf::Event::Closed)
                 window.close();
@@ -259,10 +259,11 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                     gameStatus = GameStatus::lose;
                 }
                 // Call vanishPiece after each insertion
-                // list->vanishPiece(&list,score);
+                
                 // // generateNextPieces(nextPieces);
                 
                 // drawNextPieces(shapesForm, window);
+                
             }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -282,7 +283,14 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
             }
             
         }
-        
+        lstCircle->clearList(&lstCircle);
+        lstSquare->clearList(&lstSquare);
+        lstTriangle->clearList(&lstTriangle);
+        lstDiamond->clearList(&lstDiamond);
+        lstRed->clearList(&lstRed);
+        lstGreen->clearList(&lstGreen);
+        lstBlue->clearList(&lstBlue);
+        lstYellow->clearList(&lstYellow);
         if (!font.loadFromFile("Raillinc.otf")) {
             std::cerr << "Error loading font" << std::endl;
         }

@@ -120,14 +120,17 @@ void LstPieces::printList(LstPieces *list){
 }
 
 void LstPieces::vanishPiece(LstPieces **list,int &score) {
-    if (*list == NULL || (*list)->next == *list || (*list)->next->next == *list)
+    if (*list == NULL )
         return;
 
     LstPieces *beforePrev = NULL;
     LstPieces *prev = *list;
     LstPieces *current = prev->next;
-    LstPieces *next = current->next;
-
+    if (current == NULL)
+            return;
+    LstPieces *next = current->next; 
+    if (next == NULL)
+        return;
     // Create a set to hold the nodes that need to be deleted
     std::unordered_set<LstPieces*> toDelete;
 
@@ -182,7 +185,11 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
         // delete node;
     }
 
-    cout << "No three consecutive pieces with the same color found in the list!!!\n";
+    if (*list == NULL) {
+        cout << "You win" << endl;
+    } else {
+        cout << "No three consecutive pieces with the same color or shape found in the list!!!\n";
+    }
 }
 
 int LstPieces::countPieces() {

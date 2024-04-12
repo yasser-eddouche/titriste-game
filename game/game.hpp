@@ -24,6 +24,7 @@ class LstPieces {
         // int score =0;
         Piece *piece;
         LstPieces *next;
+        
         // LstPieces *head; // Pointeur de tête pour la liste
         // LstPieces *last; // Pointeur de queue pour la liste
         LstPieces();

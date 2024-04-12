@@ -3,9 +3,12 @@
 #include "shapes/shapes.hpp"
 // #include "game/game.hpp"
 #include "gui/Gui.hpp"
+// #include "LstShapes/LstShapes.hpp"
 int main()
 {   
     LstPieces *list = NULL;
+    
+
     int score ;
     int maxScore = 0;
     ShapesForm shapesForm;
