@@ -245,7 +245,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                     if (exit.getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
-                        window.close();
+                        return;
                     }
                 }
             }

@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <cstdlib> // Include <cstdlib> for rand() function
+#include <cstdlib>
 #include "../game/game.hpp"
 #include "../shapes/shapes.hpp"
 #include <queue> 
@@ -14,9 +14,7 @@ enum GameStatus {
 class Gui
 {
 std::queue<std::pair<Color, Shapes>> nextPiecesQueue;
-// LstPieces *list ;
 GameStatus gameStatus;
-// sf::RenderWindow window;
 ShapesForm shapesForm;
 Color randomColor;
 Shapes randomShape;

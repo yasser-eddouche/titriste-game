@@ -26,14 +26,14 @@ int main()
     button2.setFillColor(sf::Color(0, 0, 0,0));
     button2.setPosition(730, 370);
     sf::Text button2Text("Quit", font, 50);
-    button2Text.setPosition(740, 370);
-    shapesForm.setCircle(60.f, sf::Color::Red, sf::Color::Black, 2.f);
+    button2Text.setPosition(750, 370);
+    shapesForm.setCircle(60.f, sf::Color::Red, sf::Color::White, 5.f);
     shapesForm.getCircle().setPosition(350,200);
-    shapesForm.setSquare(100.f, sf::Color::Yellow, sf::Color::Black, 2.f);
+    shapesForm.setSquare(100.f, sf::Color::Yellow, sf::Color::White, 5.f);
     shapesForm.getSquare().setPosition(1250,250);
-    shapesForm.setTriangle(100.f, sf::Color::Blue, sf::Color::Black, 2.f);
+    shapesForm.setTriangle(100.f, sf::Color::Blue, sf::Color::White, 5.f);
     shapesForm.getTriangle().setPosition(200,500);
-    shapesForm.setDiamond(80.f, sf::Color::Green, sf::Color::Black, 2.f);
+    shapesForm.setDiamond(80.f, sf::Color::Green, sf::Color::White, 5.f);
     shapesForm.getDiamond().setPosition(1300,400);
     while (window.isOpen())
     {
