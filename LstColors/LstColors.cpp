@@ -1,5 +1,5 @@
 #include "LstColors.hpp"
-// #include <iostream>
+
 LstColors::LstColors() {
     piece = nullptr;
     nextColor = nullptr;

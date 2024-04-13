@@ -21,12 +21,9 @@ public:
 class LstPieces {
     
     public:
-        // int score =0;
         Piece *piece;
         LstPieces *next;
         
-        // LstPieces *head; // Pointeur de tête pour la liste
-        // LstPieces *last; // Pointeur de queue pour la liste
         LstPieces();
         ~LstPieces();
         
@@ -36,6 +33,6 @@ class LstPieces {
         void vanishPiece(LstPieces**,int&);
         void printList(LstPieces*);
         int countPieces();
-        void moveLastPieceToLeft(LstPieces **list);
+        // void moveLastPieceToLeft(LstPieces **list);
 };
 

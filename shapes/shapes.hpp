@@ -3,7 +3,7 @@
 
 class ShapesForm {
 public:
-    ShapesForm(); // Constructor
+    ShapesForm();
     void setCircle(float radius, const sf::Color& fillColor, const sf::Color& outlineColor, float outlineThickness);
     void setSquare(float size, const sf::Color& fillColor, const sf::Color& outlineColor, float outlineThickness);
     void setTriangle(float size, const sf::Color& fillColor, const sf::Color& outlineColor, float outlineThickness);
