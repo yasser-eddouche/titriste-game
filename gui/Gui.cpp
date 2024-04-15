@@ -293,6 +293,15 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         }
         window.display();
     }
+    delete list;
+    delete lstCircle;
+    delete lstSquare;
+    delete lstTriangle;
+    delete lstDiamond;
+    delete lstRed;
+    delete lstGreen;
+    delete lstBlue;
+    delete lstYellow;
 }
 
 void Gui::loseGamePage(sf::RenderWindow& window,int score){
