@@ -157,11 +157,16 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
         cout<<node->piece->color<<" "<<node->piece->shape<<endl;
 
         LstPieces* current = *list;
+        LstPieces* prev = NULL;
         do {
             if (current->next == node) {
                 current->next = node->next;
+                if (node == *list) {
+                    *list = node->next;
+                }
                 break;
             }
+            prev = current;
             current = current->next;
         } while (current != *list);
 
