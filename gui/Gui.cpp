@@ -18,7 +18,7 @@ void Gui::drawList(LstPieces* list, ShapesForm& shapesForm, sf::RenderWindow& wi
 {   
     LstPieces *current = list;
     sf::Color fillColor;
-    sf::Vector2f position(100.f, 550.f);
+    sf::Vector2f position(100.f, 650.f);
     if (list != nullptr) {
         do {
             Color color = current->piece->color;
@@ -274,6 +274,24 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         scoreText.setCharacterSize(50);
         scoreText.setFillColor(sf::Color::White);
         scoreText.setPosition(1170.f, 50.f);
+        sf::Texture texture;
+        if (!texture.loadFromFile("keys.png")) {
+            std::cerr << "Error loading image" << std::endl;
+        }
+
+        sf::Sprite sprite;
+        sprite.setTexture(texture);
+
+        // Position the sprite
+        sprite.setPosition(sf::Vector2f(1280.f, 170.f));
+
+        // Scale the sprite
+        float scaleFactorX = 0.3f;  // replace with your desired scale factor
+        float scaleFactorY = 0.3f;  // replace with your desired scale factor
+        sprite.setScale(scaleFactorX, scaleFactorY);
+
+        // Draw the sprite to the window
+        window.draw(sprite);
         window.draw(scoreText);
         window.draw(exit);
         window.draw(exitText);
@@ -288,7 +306,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         }else if (gameStatus == GameStatus::win) {
             fprintf(ScoreFile, "\n%d", score);
             fclose(ScoreFile);
-            winGamePage(window);
+            winGamePage(window,score);
             break;
         }
         window.display();
@@ -329,12 +347,18 @@ void Gui::loseGamePage(sf::RenderWindow& window,int score){
     sf::sleep(sf::seconds(2));
 }
 
-void Gui::winGamePage(sf::RenderWindow& window){
+void Gui::winGamePage(sf::RenderWindow& window,int score){
     sf::Font font;
     if (!font.loadFromFile("Raillinc.otf")) {
         std::cerr << "Error loading font" << std::endl;
     }
     sf::Text text;
+    // sf::Text scoreText;
+    // scoreText.setFont(font);
+    // scoreText.setString("Score: "+std::to_string(score));
+    // scoreText.setCharacterSize(50);
+    // scoreText.setFillColor(sf::Color::White);
+    // scoreText.setPosition(710.f, 100.f);
     text.setFont(font);
     text.setString("Winner!");
     text.setCharacterSize(70);
@@ -343,6 +367,7 @@ void Gui::winGamePage(sf::RenderWindow& window){
 
    
     window.draw(text);
+    // window.draw(scoreText);
     window.display();
     sf::sleep(sf::seconds(2));
 }

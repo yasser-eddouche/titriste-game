@@ -8,7 +8,7 @@ int main()
     int score ;
     int maxScore = 0;
     ShapesForm shapesForm;
-    sf::RenderWindow window(sf::VideoMode(1600, 650), "Titriste");
+    sf::RenderWindow window(sf::VideoMode(1600, 750), "Titriste");
     ParticleSystem particles(1000);
     sf::Clock clock;
     sf::Font font;
@@ -46,7 +46,7 @@ int main()
                     maxScore = score;
                 }
             }
-            cout << "Score: " << maxScore << endl;
+            // cout << "Score: " << maxScore << endl;
         }
         fclose(scoreFile);
         sf::Event event;
@@ -86,7 +86,7 @@ int main()
         scoreText.setString("Best Score: "+std::to_string(maxScore));
         scoreText.setCharacterSize(30);
         scoreText.setFillColor(sf::Color::White);
-        scoreText.setPosition(700.f, 580.f);
+        scoreText.setPosition(700.f, 640.f);
         window.clear();
         window.draw(shapesForm.getCircle());
         window.draw(shapesForm.getSquare());

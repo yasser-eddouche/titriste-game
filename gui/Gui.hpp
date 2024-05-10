@@ -24,7 +24,7 @@ public:
     void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape,sf::RenderWindow&);
     void drawList(LstPieces*,ShapesForm&,sf::RenderWindow&);
     void gamePage(LstPieces*,sf::RenderWindow&);
-    void winGamePage(sf::RenderWindow&);
+    void winGamePage(sf::RenderWindow&,int);
     void loseGamePage(sf::RenderWindow&,int);
     void printAllPieces();
     void drawNextPieces( ShapesForm& shapesForm, sf::RenderWindow& window);
