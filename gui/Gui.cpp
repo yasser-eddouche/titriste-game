@@ -157,6 +157,19 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     LstColors *lstGreen = nullptr;
     LstColors *lstBlue = nullptr;
     LstColors *lstYellow = nullptr;
+
+    sf::Clock clock; // start the clock
+    float timeLimit = 30.0f; // set the time limit in seconds
+    // sf::Font font;
+    if (!font.loadFromFile("Raillinc.otf")) {
+        // handle error
+    }
+    sf::Text timerText;
+    timerText.setFont(font);
+    timerText.setCharacterSize(50); // in pixels
+    timerText.setFillColor(sf::Color::White);
+    timerText.setPosition(1000.f, 50.f); // adjust position as needed
+
     int numPieces = rand() % 2 + 4;
     for (int i = 0; i < numPieces; ++i) {
          randomColor = static_cast<Color>(rand() % 4);
@@ -177,6 +190,14 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
     while (window.isOpen()) {
         window.clear();
         if (gameStatus == GameStatus::playing) {
+            float elapsedTime = clock.getElapsedTime().asSeconds(); // get elapsed time
+        float timeRemaining = timeLimit - elapsedTime;
+        timerText.setString(std::to_string(static_cast<int>(timeRemaining)));
+        if (timeRemaining <= 0) {
+            gameStatus = GameStatus::lose; // end the game if time limit is reached
+            loseGamePage(window,score);
+            break;
+        }
         drawNextPieces(shapesForm, window);
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -291,6 +312,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         sprite.setScale(scaleFactorX, scaleFactorY);
 
         // Draw the sprite to the window
+        window.draw(timerText); // draw the timer text
         window.draw(sprite);
         window.draw(scoreText);
         window.draw(exit);
