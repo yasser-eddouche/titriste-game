@@ -3,10 +3,10 @@
 #include <iostream>
 
 class LstColors{
-    
-    Piece *piece;
-    LstColors *nextColor;
-    LstColors *prevColor;
+    private:
+        Piece *piece;
+        LstColors *nextColor;
+        LstColors *prevColor;
     
     public:
         LstColors();

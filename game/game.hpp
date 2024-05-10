@@ -33,6 +33,5 @@ class LstPieces {
         void vanishPiece(LstPieces**,int&);
         void printList(LstPieces*);
         int countPieces();
-        // void moveLastPieceToLeft(LstPieces **list);
 };
 

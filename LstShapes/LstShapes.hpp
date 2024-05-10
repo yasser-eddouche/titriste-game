@@ -3,10 +3,10 @@
 #include <iostream>
 
 class LstShapes{
-    
-    Piece *piece;
-    LstShapes *nextShape;
-    LstShapes *prevShape;
+    private:
+        Piece *piece;
+        LstShapes *nextShape;
+        LstShapes *prevShape;
     
     public:
         LstShapes();

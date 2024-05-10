@@ -13,20 +13,21 @@ enum GameStatus {
 };
 class Gui
 {
-std::queue<std::pair<Color, Shapes>> nextPiecesQueue;
-GameStatus gameStatus;
-ShapesForm shapesForm;
-Color randomColor;
-Shapes randomShape;
-public:
-    Gui(LstPieces*);
-    ~Gui();
-    void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape,sf::RenderWindow&);
-    void drawList(LstPieces*,ShapesForm&,sf::RenderWindow&);
-    void gamePage(LstPieces*,sf::RenderWindow&);
-    void winGamePage(sf::RenderWindow&,int);
-    void loseGamePage(sf::RenderWindow&,int);
-    void printAllPieces();
-    void drawNextPieces( ShapesForm& shapesForm, sf::RenderWindow& window);
+    private:
+        std::queue<std::pair<Color, Shapes>> nextPiecesQueue;
+        GameStatus gameStatus;
+        ShapesForm shapesForm;
+        Color randomColor;
+        Shapes randomShape;
+    public:
+        Gui(LstPieces*);
+        ~Gui();
+        void generatePieces(ShapesForm& shapesForm,Color randomColor,Shapes randomShape,sf::RenderWindow&);
+        void drawList(LstPieces*,ShapesForm&,sf::RenderWindow&);
+        void gamePage(LstPieces*,sf::RenderWindow&);
+        void winGamePage(sf::RenderWindow&,int);
+        void loseGamePage(sf::RenderWindow&,int);
+        void printAllPieces();
+        void drawNextPieces( ShapesForm& shapesForm, sf::RenderWindow& window);
 };
 
