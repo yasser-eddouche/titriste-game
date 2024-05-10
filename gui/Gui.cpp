@@ -283,7 +283,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         sprite.setTexture(texture);
 
         // Position the sprite
-        sprite.setPosition(sf::Vector2f(1280.f, 170.f));
+        sprite.setPosition(sf::Vector2f(1100.f, 170.f));
 
         // Scale the sprite
         float scaleFactorX = 0.3f;  // replace with your desired scale factor

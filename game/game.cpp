@@ -97,9 +97,10 @@ void LstPieces::printList(LstPieces *list){
     }
 }
 
-void LstPieces::vanishPiece(LstPieces **list,int &score) {
+void LstPieces::vanishPiece(LstPieces **list, int &score) {
     if (*list == NULL || (*list)->next == *list || (*list)->next->next == *list)
         return;
+
     int count = countPieces();
     LstPieces *beforePrev = NULL;
     LstPieces *prev = *list;
@@ -112,8 +113,8 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
         if ((prev->piece->color == current->piece->color && current->piece->color == next->piece->color && next != *list) ||
             (prev->piece->shape == current->piece->shape && current->piece->shape == next->piece->shape && next != *list)) {
             cout << "3 consecutive pieces with the same color or shape" << endl;
-            if (count==3)
-            {
+
+            if (count == 3) {
                 LstPieces *current = *list;
                 LstPieces *next;
 
@@ -127,20 +128,17 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
                 *list = NULL;
                 break;
             }
-            
-            if (beforePrev == NULL) {
-                *list = next->next;
-            } else {
-                beforePrev->next = next->next;
-            }
 
             toDelete.insert(prev);
             toDelete.insert(current);
             toDelete.insert(next);
             score++;
+
             if (beforePrev == NULL) {
+                *list = next->next;
                 prev = *list;
             } else {
+                beforePrev->next = next->next;
                 prev = beforePrev;
             }
             current = prev->next;
@@ -151,7 +149,7 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
             current = next;
             next = next->next;
         }
-    } while (current != *list);
+    } while (current != *list && toDelete.find(current) == toDelete.end());
 
     for (LstPieces* node : toDelete) {
         cout<<node->piece->color<<" "<<node->piece->shape<<endl;
@@ -174,9 +172,10 @@ void LstPieces::vanishPiece(LstPieces **list,int &score) {
         delete node;
     }
 
-    cout << "No three consecutive pieces with the same color or shape found in the list!!!\n";
+    if (toDelete.empty()) {
+        cout << "No three consecutive pieces with the same color or shape found in the list!!!\n";
+    }
 }
-
 int LstPieces::countPieces() {
     int count = 0;
     LstPieces *current = this;
