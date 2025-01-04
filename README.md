@@ -4,8 +4,8 @@
 
 ---
 
-![Game Banner](images/banner.png)  
-*Add an engaging banner image here.*
+![Game Banner](images/gameHome.png)  
+_Add an engaging banner image here._
 
 ## Features
 
@@ -45,12 +45,14 @@
 ### Installation
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/yasser-eddouche/titriste-game.git
    cd titriste-game
    ```
 
 2. **Compile the Game**:
+
    ```bash
    make
    ```
@@ -64,8 +66,8 @@
 
 ## Gameplay
 
-![Gameplay Screenshot](images/gameplay.png)  
-*Showcase an in-game screenshot.*
+![Gameplay Screenshot](images/gamePlay.png)  
+_Showcase an in-game screenshot._
 
 ### Controls
 
@@ -88,23 +90,14 @@
 - **Library**: SFML for graphical enhancements.
 - **Data Structures**: Doubly linked lists for efficient manipulation of game pieces.
 
-### Challenges
-
-- Collision detection between pieces.
-- Implementing color and shape-based shifts.
-- Designing an intuitive graphical interface.
-
 ---
 
 ## Contributing
 
-Contributions are welcome!  
+Contributions are welcome!
 
 1. Fork the repository.
 2. Create your branch: `git checkout -b feature/YourFeature`.
 3. Commit changes: `git commit -m "Add feature"`.
 4. Push to the branch: `git push origin feature/YourFeature`.
 5. Open a pull request.
-
-
-You can add images like banners, gameplay screenshots, and thank-you visuals in an `images/` folder and update their paths accordingly.

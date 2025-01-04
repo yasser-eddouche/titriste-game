@@ -296,7 +296,7 @@ void Gui::gamePage(LstPieces* list, sf::RenderWindow& window){
         scoreText.setFillColor(sf::Color::White);
         scoreText.setPosition(1170.f, 50.f);
         sf::Texture texture;
-        if (!texture.loadFromFile("keys.png")) {
+        if (!texture.loadFromFile("./images/keys.png")) {
             std::cerr << "Error loading image" << std::endl;
         }
 
