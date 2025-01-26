@@ -5,7 +5,6 @@
 ---
 
 ![Game Banner](images/gameHome.png)  
-_Add an engaging banner image here._
 
 ## Features
 
@@ -67,7 +66,6 @@ _Add an engaging banner image here._
 ## Gameplay
 
 ![Gameplay Screenshot](images/gamePlay.png)  
-_Showcase an in-game screenshot._
 
 ### Controls
 
