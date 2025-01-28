@@ -1,6 +1,6 @@
 # Titriste Game 🎮
 
-**Titriste** is a project developed in C++ as part of the Data Structures course at ENSET. It combines classic Tetris-inspired gameplay with additional strategic mechanics like color and shape-based shifts and removals. This README provides installation instructions, features, and insights into the development process.
+**Titriste** is a project developed in C++. It combines classic Tetris-inspired gameplay with additional strategic mechanics like color and shape-based shifts and removals. This README provides installation instructions, features, and insights into the development process.
 
 ---
 
