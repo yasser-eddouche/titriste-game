@@ -88,4 +88,3 @@
 - **Library**: SFML for graphical enhancements.
 - **Data Structures**: Doubly linked lists for efficient manipulation of game pieces.
 
----
